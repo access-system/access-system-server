@@ -16,6 +16,14 @@ if [ "$1" = "dev" ]; then
   exit 0
 fi
 
+if [ "$1" = "clean-dev" ]; then
+  docker rm access-system-postgres
+  docker volume rm access-system-server_pgdata
+  docker-compose --profile dev up --build
+
+  exit 0
+fi
+
 if [ "$1" = "test" ]; then
   # Check if internal/mocks exists
   if [ ! -d "internal/mocks" ]; then

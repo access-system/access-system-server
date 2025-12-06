@@ -44,7 +44,7 @@ if [ "$1" = "test" ]; then
   fi
 
   # Wait for the test container to finish
-  docker wait access-system-api-test
+  docker wait access-system-server-test
   WAIT_EXIT_CODE=$?
   if [ $WAIT_EXIT_CODE -ne 0 ]; then
     echo "Error: Test container did not start or failed unexpectedly."
@@ -53,7 +53,7 @@ if [ "$1" = "test" ]; then
   fi
 
   echo "Test container logs:"
-  docker logs access-system-api-test
+  docker logs access-system-server-test
 
   echo "Tests finished, cleaning up..."
   docker-compose --profile test down

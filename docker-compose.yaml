@@ -1,7 +1,7 @@
 services:
   # DEV
-  access-system-api:
-    container_name: access-system-api
+  access-system-server:
+    container_name: access-system-server
     profiles:
       - dev
     build:
@@ -54,8 +54,8 @@ services:
       - access-system-postgres
 
   # TEST
-  access-system-api-test:
-    container_name: access-system-api-test
+  access-system-server-test:
+    container_name: access-system-server-test
     profiles:
       - test
     build:

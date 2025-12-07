@@ -15,7 +15,7 @@ import (
 // EmbeddingService defines the interface for managing embeddings.
 type EmbeddingService interface {
 	AddEmbedding(ctx context.Context, name string, vector []float32) error
-	ValidateEmbedding(ctx context.Context, vector []float32) error
+	ValidateEmbedding(ctx context.Context, vector []float32) (*domain.Embedding, error)
 	DeleteEmbedding(ctx context.Context, id int64) error
 }
 
@@ -42,15 +42,15 @@ func (s *embeddingService) AddEmbedding(ctx context.Context, name string, vector
 }
 
 // ValidateEmbedding checks if a similar embedding exists in the repository.
-func (s *embeddingService) ValidateEmbedding(ctx context.Context, vector []float32) error {
+func (s *embeddingService) ValidateEmbedding(ctx context.Context, vector []float32) (*domain.Embedding, error) {
 	if len(vector) != 512 {
-		return fmt.Errorf("vector size must be 512, got %d", len(vector))
+		return nil, fmt.Errorf("vector size must be 512, got %d", len(vector))
 	}
-	_, err := s.embeddingRepo.GetSimilarEmbeddingByVector(ctx, pgvector.NewVector(vector))
+	embedding, err := s.embeddingRepo.GetSimilarEmbeddingByVector(ctx, pgvector.NewVector(vector))
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return embedding, nil
 }
 
 // DeleteEmbedding removes an embedding from the repository by its ID.

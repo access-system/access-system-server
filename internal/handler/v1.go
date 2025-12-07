@@ -75,7 +75,7 @@ func (h *v1Handler) ValidateEmbeddingHandler(c *gin.Context) {
 		return
 	}
 
-	err := h.embeddingService.ValidateEmbedding(ctx, data.Vector)
+	embedding, err := h.embeddingService.ValidateEmbedding(ctx, data.Vector)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			h.log.Infoln("No relevant matches found:", err)
@@ -88,7 +88,12 @@ func (h *v1Handler) ValidateEmbeddingHandler(c *gin.Context) {
 	}
 
 	h.log.Infoln("Relevant match found")
-	c.Status(http.StatusOK)
+	c.JSON(http.StatusOK, gin.H{
+		"id":       embedding.ID,
+		"name":     embedding.Name,
+		"vector":   embedding.Vector,
+		"accuracy": embedding.Accuracy,
+	})
 	return
 }
 

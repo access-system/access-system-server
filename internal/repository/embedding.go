@@ -50,9 +50,9 @@ func (r *embeddingRepository) GetSimilarEmbeddingByVector(ctx context.Context, v
 		return nil, err
 	}
 
-	const query = "SELECT id, name, vector_ FROM embedding WHERE (1 - (vector_ <=> $1)) > 0.8 ORDER BY (vector_ <=> $1) ASC LIMIT 1;"
+	const query = "SELECT id, name, vector_, (1 - (vector_ <=> $1)) AS accuracy FROM embedding WHERE (1 - (vector_ <=> $1)) > 0.5 ORDER BY (vector_ <=> $1) ASC LIMIT 1;"
 	embedding := &domain.Embedding{}
-	err := r.db.QueryRowContext(ctx, query, vector).Scan(&embedding.ID, &embedding.Name, &embedding.Vector)
+	err := r.db.QueryRowContext(ctx, query, vector).Scan(&embedding.ID, &embedding.Name, &embedding.Vector, &embedding.Accuracy)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, sql.ErrNoRows

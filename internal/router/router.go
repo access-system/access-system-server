@@ -11,14 +11,16 @@ import (
 type Router struct {
 	engine *gin.Engine
 	v1     handler.V1Handler
+	admin  handler.AdminHandler
 	log    *logrus.Logger
 }
 
 // NewRouter initializes a new Router instance
-func NewRouter(v1 handler.V1Handler, log *logrus.Logger) *Router {
+func NewRouter(v1 handler.V1Handler, admin handler.AdminHandler, log *logrus.Logger) *Router {
 	return &Router{
 		engine: gin.Default(),
 		v1:     v1,
+		admin:  admin,
 		log:    log,
 	}
 }
@@ -30,6 +32,15 @@ func (r *Router) Run() {
 		v1.POST("/embedding", r.v1.AddEmbeddingHandler)
 		v1.POST("/embedding/validate", r.v1.ValidateEmbeddingHandler)
 		v1.DELETE("/embedding", r.v1.DeleteEmbeddingHandler)
+	}
+
+	admin := v1.Group("/admin")
+	{
+		admin.POST("/embedding", r.admin.AddEmbeddingHandler)
+		admin.GET("/embedding/:id", r.admin.GetEmbeddingHandler)
+		admin.GET("/embeddings", r.admin.ListEmbeddingsHandler)
+		admin.PUT("/embedding", r.admin.UpdateEmbeddingHandler)
+		admin.DELETE("/embedding", r.admin.DeleteEmbeddingHandler)
 	}
 
 	gin.SetMode(gin.ReleaseMode)

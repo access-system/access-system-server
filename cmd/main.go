@@ -51,7 +51,10 @@ func main() {
 	v1Handler := handler.NewV1Handler(embeddingService, log)
 	log.Info("Handler initialized successfully")
 
-	r := router.NewRouter(v1Handler, log)
+	adminHandler := handler.NewAdminHandler(embeddingService, log)
+	log.Info("Admin Handler initialized successfully")
+
+	r := router.NewRouter(v1Handler, adminHandler, log)
 	r.Run()
 	log.Info("Router started successfully")
 }

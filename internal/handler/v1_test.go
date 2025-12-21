@@ -8,10 +8,12 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"access-system-api/internal/domain"
 	mocks "access-system-api/internal/mocks/service"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
+	"github.com/pgvector/pgvector-go"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 )
@@ -134,7 +136,13 @@ func TestValidateEmbeddingHandler_Success(t *testing.T) {
 		"vector": vector,
 	})
 
-	service.EXPECT().ValidateEmbedding(gomock.Any(), vector).Return(nil)
+	// Return a valid embedding and no error
+	service.EXPECT().ValidateEmbedding(gomock.Any(), vector).Return(&domain.Embedding{
+		ID:       1,
+		Name:     "test",
+		Vector:   pgvector.NewVector(vector),
+		Accuracy: 0.99,
+	}, nil)
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/validate", bytes.NewReader(body))
@@ -176,7 +184,8 @@ func TestValidateEmbeddingHandler_ServiceError(t *testing.T) {
 	body, _ := json.Marshal(map[string]interface{}{
 		"vector": vector,
 	})
-	service.EXPECT().ValidateEmbedding(gomock.Any(), vector).Return(assert.AnError)
+	// Return error
+	service.EXPECT().ValidateEmbedding(gomock.Any(), vector).Return(nil, assert.AnError)
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/validate", bytes.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
@@ -199,7 +208,8 @@ func TestValidateEmbeddingHandler_NotFound(t *testing.T) {
 	body, _ := json.Marshal(map[string]interface{}{
 		"vector": vector,
 	})
-	service.EXPECT().ValidateEmbedding(gomock.Any(), vector).Return(sql.ErrNoRows)
+	// Return not found error
+	service.EXPECT().ValidateEmbedding(gomock.Any(), vector).Return(nil, sql.ErrNoRows)
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/validate", bytes.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
@@ -219,7 +229,8 @@ func TestValidateEmbeddingHandler_InvalidVectorSize(t *testing.T) {
 	body, _ := json.Marshal(map[string]interface{}{
 		"vector": vector,
 	})
-	service.EXPECT().ValidateEmbedding(gomock.Any(), vector).Return(assert.AnError)
+	// Return size validation error
+	service.EXPECT().ValidateEmbedding(gomock.Any(), vector).Return(nil, assert.AnError)
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/validate", bytes.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")

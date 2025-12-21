@@ -37,21 +37,21 @@ services:
       timeout: 5s
       retries: 5
 
-  access-system-pgadmin:
-    image: dpage/pgadmin4
-    env_file:
-      - .env
-    container_name: access-system-pgadmin
-    profiles:
-      - dev
-    networks:
-      - default-network
-    ports:
-      - "8091:80"
-    volumes:
-      - pgadmindata:/var/lib/pgadmin
-    depends_on:
-      - access-system-postgres
+#  access-system-pgadmin:
+#    image: dpage/pgadmin4
+#    env_file:
+#      - .env
+#    container_name: access-system-pgadmin
+#    profiles:
+#      - dev
+#    networks:
+#      - default-network
+#    ports:
+#      - "8091:80"
+#    volumes:
+#      - pgadmindata:/var/lib/pgadmin
+#    depends_on:
+#      - access-system-postgres
 
   # TEST
   access-system-server-test:

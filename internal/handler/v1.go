@@ -48,6 +48,13 @@ func (h *v1Handler) AddEmbeddingHandler(c *gin.Context) {
 		return
 	}
 
+	// Validate required fields
+	if data.Name == "" || len(data.Vector) == 0 {
+		h.log.Errorln("Missing required fields: name or vector")
+		c.String(http.StatusBadRequest, "Bad Request: name and vector are required")
+		return
+	}
+
 	err := h.embeddingService.AddEmbedding(ctx, data.Name, data.Vector)
 	if err != nil {
 		h.log.Errorln("Error adding embedding:", err)
@@ -68,6 +75,13 @@ func (h *v1Handler) ValidateEmbeddingHandler(c *gin.Context) {
 	if err := c.ShouldBindJSON(&data); err != nil {
 		h.log.Errorln("Error binding JSON:", err)
 		c.String(http.StatusBadRequest, "Bad Request: %v", err)
+		return
+	}
+
+	// Validate required fields
+	if len(data.Vector) == 0 {
+		h.log.Errorln("Missing required field: vector")
+		c.String(http.StatusBadRequest, "Bad Request: vector is required")
 		return
 	}
 
@@ -103,6 +117,13 @@ func (h *v1Handler) DeleteEmbeddingHandler(c *gin.Context) {
 	if err := c.ShouldBindJSON(&data); err != nil {
 		h.log.Errorln("Error binding JSON:", err)
 		c.String(http.StatusBadRequest, "Bad Request: %v", err)
+		return
+	}
+
+	// Validate required fields
+	if data.ID == 0 {
+		h.log.Errorln("Missing required field: id")
+		c.String(http.StatusBadRequest, "Bad Request: id is required")
 		return
 	}
 

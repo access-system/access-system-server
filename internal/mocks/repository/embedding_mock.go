@@ -64,6 +64,21 @@ func (mr *MockEmbeddingRepositoryMockRecorder) DeleteEmbeddingById(arg0, arg1 in
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteEmbeddingById", reflect.TypeOf((*MockEmbeddingRepository)(nil).DeleteEmbeddingById), arg0, arg1)
 }
 
+// GetEmbeddingById mocks base method.
+func (m *MockEmbeddingRepository) GetEmbeddingById(arg0 context.Context, arg1 int64) (*domain.Embedding, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetEmbeddingById", arg0, arg1)
+	ret0, _ := ret[0].(*domain.Embedding)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetEmbeddingById indicates an expected call of GetEmbeddingById.
+func (mr *MockEmbeddingRepositoryMockRecorder) GetEmbeddingById(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetEmbeddingById", reflect.TypeOf((*MockEmbeddingRepository)(nil).GetEmbeddingById), arg0, arg1)
+}
+
 // GetSimilarEmbeddingByVector mocks base method.
 func (m *MockEmbeddingRepository) GetSimilarEmbeddingByVector(arg0 context.Context, arg1 pgvector.Vector) (*domain.Embedding, error) {
 	m.ctrl.T.Helper()
@@ -77,4 +92,33 @@ func (m *MockEmbeddingRepository) GetSimilarEmbeddingByVector(arg0 context.Conte
 func (mr *MockEmbeddingRepositoryMockRecorder) GetSimilarEmbeddingByVector(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSimilarEmbeddingByVector", reflect.TypeOf((*MockEmbeddingRepository)(nil).GetSimilarEmbeddingByVector), arg0, arg1)
+}
+
+// ListEmbeddings mocks base method.
+func (m *MockEmbeddingRepository) ListEmbeddings(arg0 context.Context) ([]*domain.Embedding, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListEmbeddings", arg0)
+	ret0, _ := ret[0].([]*domain.Embedding)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListEmbeddings indicates an expected call of ListEmbeddings.
+func (mr *MockEmbeddingRepositoryMockRecorder) ListEmbeddings(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListEmbeddings", reflect.TypeOf((*MockEmbeddingRepository)(nil).ListEmbeddings), arg0)
+}
+
+// UpdateEmbedding mocks base method.
+func (m *MockEmbeddingRepository) UpdateEmbedding(arg0 context.Context, arg1 *domain.Embedding) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateEmbedding", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateEmbedding indicates an expected call of UpdateEmbedding.
+func (mr *MockEmbeddingRepositoryMockRecorder) UpdateEmbedding(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateEmbedding", reflect.TypeOf((*MockEmbeddingRepository)(nil).UpdateEmbedding), arg0, arg1)
 }

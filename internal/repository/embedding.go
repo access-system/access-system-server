@@ -10,8 +10,6 @@ import (
 	"github.com/pgvector/pgvector-go"
 )
 
-//go:generate mockgen -destination=../mocks/repository/embedding_mock.go -package=mocks . EmbeddingRepository
-
 // EmbeddingRepository defines the methods for managing embeddings in the database.
 type EmbeddingRepository interface {
 	CreateEmbedding(ctx context.Context, embedding *domain.Embedding) error

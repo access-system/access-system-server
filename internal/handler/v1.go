@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"time"
 
+	"access-system-api/internal/dto"
 	"access-system-api/internal/service"
 
 	"github.com/gin-gonic/gin"
@@ -39,10 +40,7 @@ func (h *v1Handler) AddEmbeddingHandler(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
 	defer cancel()
 
-	var data struct {
-		Name   string    `json:"name" binding:"required"`
-		Vector []float32 `json:"vector" binding:"required"`
-	}
+	var data dto.AddEmbeddingRequest
 
 	if err := c.ShouldBindJSON(&data); err != nil {
 		h.log.Errorln("Error binding JSON:", err)
@@ -65,9 +63,7 @@ func (h *v1Handler) ValidateEmbeddingHandler(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
 	defer cancel()
 
-	var data struct {
-		Vector []float32 `json:"vector" binding:"required"`
-	}
+	var data dto.ValidateEmbeddingRequest
 
 	if err := c.ShouldBindJSON(&data); err != nil {
 		h.log.Errorln("Error binding JSON:", err)
@@ -102,9 +98,7 @@ func (h *v1Handler) DeleteEmbeddingHandler(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
 	defer cancel()
 
-	var data struct {
-		ID int64 `json:"id" binding:"required"`
-	}
+	var data dto.DeleteEmbeddingRequest
 
 	if err := c.ShouldBindJSON(&data); err != nil {
 		h.log.Errorln("Error binding JSON:", err)

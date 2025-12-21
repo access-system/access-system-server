@@ -1,6 +1,8 @@
 package router
 
 import (
+	"net/http"
+
 	"access-system-api/internal/handler"
 
 	"github.com/gin-gonic/gin"
@@ -42,6 +44,10 @@ func (r *Router) Run() {
 		admin.PUT("/embedding", r.admin.UpdateEmbeddingHandler)
 		admin.DELETE("/embedding", r.admin.DeleteEmbeddingHandler)
 	}
+
+	r.engine.GET("/health", func(c *gin.Context) {
+		c.Status(http.StatusOK)
+	})
 
 	gin.SetMode(gin.ReleaseMode)
 	if err := r.engine.Run(":8081"); err != nil {

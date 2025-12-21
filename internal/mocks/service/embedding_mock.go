@@ -5,6 +5,7 @@
 package mocks
 
 import (
+	domain "access-system-api/internal/domain"
 	context "context"
 	reflect "reflect"
 
@@ -62,12 +63,57 @@ func (mr *MockEmbeddingServiceMockRecorder) DeleteEmbedding(arg0, arg1 interface
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteEmbedding", reflect.TypeOf((*MockEmbeddingService)(nil).DeleteEmbedding), arg0, arg1)
 }
 
-// ValidateEmbedding mocks base method.
-func (m *MockEmbeddingService) ValidateEmbedding(arg0 context.Context, arg1 []float32) error {
+// GetEmbedding mocks base method.
+func (m *MockEmbeddingService) GetEmbedding(arg0 context.Context, arg1 int64) (*domain.Embedding, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ValidateEmbedding", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetEmbedding", arg0, arg1)
+	ret0, _ := ret[0].(*domain.Embedding)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetEmbedding indicates an expected call of GetEmbedding.
+func (mr *MockEmbeddingServiceMockRecorder) GetEmbedding(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetEmbedding", reflect.TypeOf((*MockEmbeddingService)(nil).GetEmbedding), arg0, arg1)
+}
+
+// ListEmbeddings mocks base method.
+func (m *MockEmbeddingService) ListEmbeddings(arg0 context.Context) ([]*domain.Embedding, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListEmbeddings", arg0)
+	ret0, _ := ret[0].([]*domain.Embedding)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListEmbeddings indicates an expected call of ListEmbeddings.
+func (mr *MockEmbeddingServiceMockRecorder) ListEmbeddings(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListEmbeddings", reflect.TypeOf((*MockEmbeddingService)(nil).ListEmbeddings), arg0)
+}
+
+// UpdateEmbedding mocks base method.
+func (m *MockEmbeddingService) UpdateEmbedding(arg0 context.Context, arg1 int64, arg2 string, arg3 []float32) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateEmbedding", arg0, arg1, arg2, arg3)
 	ret0, _ := ret[0].(error)
 	return ret0
+}
+
+// UpdateEmbedding indicates an expected call of UpdateEmbedding.
+func (mr *MockEmbeddingServiceMockRecorder) UpdateEmbedding(arg0, arg1, arg2, arg3 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateEmbedding", reflect.TypeOf((*MockEmbeddingService)(nil).UpdateEmbedding), arg0, arg1, arg2, arg3)
+}
+
+// ValidateEmbedding mocks base method.
+func (m *MockEmbeddingService) ValidateEmbedding(arg0 context.Context, arg1 []float32) (*domain.Embedding, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ValidateEmbedding", arg0, arg1)
+	ret0, _ := ret[0].(*domain.Embedding)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // ValidateEmbedding indicates an expected call of ValidateEmbedding.
